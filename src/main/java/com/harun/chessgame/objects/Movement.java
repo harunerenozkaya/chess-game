@@ -28,4 +28,12 @@ public class Movement {
     public int getTargetY() {
         return targetY;
     }
+
+    @Override
+    public String toString() {
+        return  "Source X : " + sourceX + "\n" +
+                "Source Y : " + sourceY + "\n" +
+                "Target X : " + targetX + "\n" +
+                "Target Y : " + targetY + "\n";
+    }
 }

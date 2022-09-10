@@ -4,4 +4,8 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
   https://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean id="gameManager" class="com.harun.chessgame.objects.GameManager">
+        <constructor-arg index="0" ref="board"/>
+    </bean>
+    <bean id="board" class="com.harun.chessgame.objects.Board"/>
 </beans>
