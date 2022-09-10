@@ -4,10 +4,12 @@ import com.harun.chessgame.objects.GameManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.io.IOException;
+
 public class ChessGameApplication {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, InterruptedException {
         ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
-        GameManager gameManager = context.getBean("gamemanager",GameManager.class);
+        GameManager gameManager = context.getBean("gameManager",GameManager.class);
         gameManager.run();
     }
 }

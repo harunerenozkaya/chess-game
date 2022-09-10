@@ -87,11 +87,71 @@ public class Board implements IBoard{
 
     @Override
     public void movePiece(Movement movement, PlayerType playerType) {
-        System.out.println(movement);
     }
     @Override
     public boolean controlWinGame(PlayerType playerType) {
         return false;
+    }
+
+    @Override
+    public void printBoard() {
+        System.out.println("   ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯");
+        for(int i=0; i<8; i++){
+            System.out.print(" " + (i+1) + " ");
+            for(int j=0; j<8; j++){
+
+                if(board[i][j].getColor() == PieceColor.BlackPiece){
+                    switch (board[i][j].getType()){
+                        case Rook:
+                            System.out.print("⎪ R " );
+                            break;
+                        case Knight:
+                            System.out.print("⎪ K ");
+                            break;
+                        case Bishop:
+                            System.out.print("⎪ B ");
+                            break;
+                        case Queen:
+                            System.out.print("⎪ Q ");
+                            break;
+                        case King:
+                            System.out.print("⎪ X ");
+                            break;
+                        case Pawn:
+                            System.out.print("⎪ P ");
+                            break;
+                    }
+                }
+                else if(board[i][j].getColor() == PieceColor.WhitePiece){
+                    switch (board[i][j].getType()){
+                        case Rook:
+                            System.out.print("⎪ R " );
+                            break;
+                        case Knight:
+                            System.out.print("⎪ K ");
+                            break;
+                        case Bishop:
+                            System.out.print("⎪ B ");
+                            break;
+                        case Queen:
+                            System.out.print("⎪ Q ");
+                            break;
+                        case King:
+                            System.out.print("⎪ X ");
+                            break;
+                        case Pawn:
+                            System.out.print("⎪ P ");
+                            break;
+                    }
+                }else{
+                    System.out.print("⎪   ");
+                }
+            }
+            System.out.print("⎪\n");
+            System.out.println("   ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯");
+        }
+        System.out.println("     a   b   c   d   e   f   g   h");
+        System.out.print("\n\n");
     }
 
     private boolean controlMovement(Movement movement, PlayerType playerType) {
