@@ -13,23 +13,28 @@ public class GameManager implements IGameManager{
     }
 
     @Override
-    public void run() throws IOException, InterruptedException {
+    public void run(){
+        boolean isMoveable = true;
+
         System.out.println("!--- Welcome to the Chess Game ---!");
         System.out.println("Tip : Movement inputs must be like : (source)-(target)");
         System.out.println("Exp : b4-b6 , c3-d4 etc.\n\n");
 
         while (true){
-            board.printBoard();
-            board.movePiece(getInputs(PlayerType.WhitePlayer),PlayerType.WhitePlayer);
-            if(board.controlWinGame(PlayerType.WhitePlayer))
-                break;
+            do{
+                board.printBoard();
+                isMoveable = board.movePiece(getInputs(PlayerType.WhitePlayer),PlayerType.WhitePlayer);
+                if(board.controlWinGame(PlayerType.WhitePlayer))
+                    break;
+            }while(!isMoveable);
 
-            board.printBoard();
-            board.movePiece(getInputs(PlayerType.BlackPlayer),PlayerType.BlackPlayer);
-            if(board.controlWinGame(PlayerType.BlackPlayer))
-                break;
+            do{
+                board.printBoard();
+                isMoveable = board.movePiece(getInputs(PlayerType.BlackPlayer),PlayerType.BlackPlayer);
+                if(board.controlWinGame(PlayerType.BlackPlayer))
+                    break;
+            }while(!isMoveable);
         }
-
     }
 
     private Movement getInputs(PlayerType playerType) {
