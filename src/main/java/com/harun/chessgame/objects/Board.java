@@ -90,7 +90,7 @@ public class Board implements IBoard{
         if(!controlMovement(movement,playerType))
             return false;
 
-        doMovement(movement,playerType);
+        doMovement(movement);
         return true;
     }
     @Override
@@ -115,9 +115,23 @@ public class Board implements IBoard{
 
     private boolean controlMovement(Movement movement,PlayerType playerType) {
         //TODO dont move if king will be checked
+        //TODO taş hareket konumları arasındaki noktaların taş kontrolünü yap
         return  controlMovementByPlayerType(movement,playerType) &&
                 controlMovementByPieceType(movement,playerType) &&
-                controlMovementByPieceLocations(movement);
+                controlMovementByPieceLocations(movement) &&
+                controlMovementByKingChecked(movement,playerType);
+    }
+
+    private boolean controlMovementByKingChecked(Movement movement, PlayerType playerType) {
+        doMovement(movement);
+
+        if(controlPlayerIsChecked(playerType)){
+            undoMovement(movement,board[movement.getTargetY()][movement.getTargetX()]);
+            return false;
+        }else{
+            undoMovement(movement,board[movement.getTargetY()][movement.getTargetX()]);
+            return true;
+        }
     }
 
     private boolean controlMovementByPlayerType(Movement movement,PlayerType playerType){
@@ -188,11 +202,11 @@ public class Board implements IBoard{
     }
 
 
-    private boolean controlPlayerIsCheck(PlayerType playerType) {
+    private boolean controlPlayerIsChecked(PlayerType playerType) {
         return false;
     }
 
-    private void doMovement(Movement movement, PlayerType playerType){
+    private void doMovement(Movement movement){
         Piece sourcePiece = board[movement.getSourceY()][movement.getSourceX()];
         Piece targetPiece = board[movement.getTargetY()][movement.getTargetX()];
 
@@ -202,5 +216,13 @@ public class Board implements IBoard{
         sourcePiece.setType(PieceType.Empty);
         sourcePiece.setColor(PieceColor.EmptyPiece);
         sourcePiece.setIcon(" ");
+    }
+
+    private void undoMovement(Movement movement ,Piece targetPiece){
+        doMovement(new Movement(movement.getTargetX(),movement.getTargetY(),movement.getSourceX(), movement.getSourceY()));
+        board[movement.getTargetY()][movement.getTargetX()].setType(targetPiece.getType());
+        board[movement.getTargetY()][movement.getTargetX()].setColor(targetPiece.getColor());
+        board[movement.getTargetY()][movement.getTargetX()].setIcon(targetPiece.getIcon());
+
     }
 }
