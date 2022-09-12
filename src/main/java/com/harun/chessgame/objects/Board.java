@@ -6,8 +6,6 @@ import com.harun.chessgame.enums.PlayerType;
 
 public class Board implements IBoard{
     private Piece[][] board;
-    private boolean playerBlackIsChecked = false;
-    private boolean playerWhiteIsChecked = false;
 
     public Board(){
         board = new Piece[8][8];
@@ -93,6 +91,7 @@ public class Board implements IBoard{
         doMovement(movement);
         return true;
     }
+
     @Override
     public boolean controlWinGame(PlayerType playerType) {
         return false;
@@ -114,25 +113,13 @@ public class Board implements IBoard{
     }
 
     private boolean controlMovement(Movement movement,PlayerType playerType) {
-        //TODO dont move if king will be checked
         //TODO taş hareket konumları arasındaki noktaların taş kontrolünü yap
         return  controlMovementByPlayerType(movement,playerType) &&
                 controlMovementByPieceType(movement,playerType) &&
                 controlMovementByPieceLocations(movement) &&
-                controlMovementByKingChecked(movement,playerType);
+                controlMovementByKingCheckedIfDoneMovement(movement,playerType);
     }
 
-    private boolean controlMovementByKingChecked(Movement movement, PlayerType playerType) {
-        doMovement(movement);
-
-        if(controlPlayerIsChecked(playerType)){
-            undoMovement(movement,board[movement.getTargetY()][movement.getTargetX()]);
-            return false;
-        }else{
-            undoMovement(movement,board[movement.getTargetY()][movement.getTargetX()]);
-            return true;
-        }
-    }
 
     private boolean controlMovementByPlayerType(Movement movement,PlayerType playerType){
         PieceColor sourcePieceColor = board[movement.getSourceY()][movement.getSourceX()].getColor();
@@ -196,15 +183,66 @@ public class Board implements IBoard{
         return false;
     }
 
-
     private boolean controlMovementByPieceLocations(Movement movement) {
         return true;
     }
 
+    private boolean controlMovementByKingCheckedIfDoneMovement(Movement movement, PlayerType playerType) {
+        Piece targetPiece = board[movement.getTargetY()][movement.getTargetX()];
+        doMovement(movement);
+
+        if(controlPlayerIsChecked(playerType)){
+            undoMovement(movement,targetPiece);
+            return false;
+        }
+        else{
+            undoMovement(movement,targetPiece);
+            return true;
+        }
+    }
 
     private boolean controlPlayerIsChecked(PlayerType playerType) {
+        int kingX = 0,kingY = 0;
+        PieceColor playerPieceColor;
+        PieceColor enemyPieceColor;
+        PlayerType enemyPlayerType;
+
+        //Find player piece color
+        if(playerType == PlayerType.BlackPlayer){
+            playerPieceColor = PieceColor.BlackPiece;
+            enemyPieceColor = PieceColor.WhitePiece;
+            enemyPlayerType = PlayerType.WhitePlayer;
+        }
+        else{
+            playerPieceColor = PieceColor.WhitePiece;
+            enemyPieceColor = PieceColor.BlackPiece;
+            enemyPlayerType =  PlayerType.BlackPlayer;
+        }
+
+        //Find king location
+        for(int i=0; i<8; i++){
+            for(int j=0; j<8; j++){
+                if(board[i][j].getColor() == playerPieceColor && board[i][j].getType() == PieceType.King){
+                    kingX = j;
+                    kingY = i;
+                    break;
+                }
+            }
+        }
+
+        //Control each enemy piece can move to king
+        for(int i=0; i<8; i++){
+            for(int j=0; j<8; j++){
+                if(board[i][j].getColor() == enemyPieceColor){
+                    if(controlMovementByPieceType(new Movement(j,i,kingX,kingY),enemyPlayerType))
+                        return true;
+                }
+            }
+        }
+
         return false;
     }
+
 
     private void doMovement(Movement movement){
         Piece sourcePiece = board[movement.getSourceY()][movement.getSourceX()];
@@ -223,6 +261,5 @@ public class Board implements IBoard{
         board[movement.getTargetY()][movement.getTargetX()].setType(targetPiece.getType());
         board[movement.getTargetY()][movement.getTargetX()].setColor(targetPiece.getColor());
         board[movement.getTargetY()][movement.getTargetX()].setIcon(targetPiece.getIcon());
-
     }
 }
