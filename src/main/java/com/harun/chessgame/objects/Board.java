@@ -113,10 +113,9 @@ public class Board implements IBoard{
     }
 
     private boolean controlMovement(Movement movement,PlayerType playerType) {
-        //TODO taş hareket konumları arasındaki noktaların taş kontrolünü yap
         return  controlMovementByPlayerType(movement,playerType) &&
                 controlMovementByPieceType(movement,playerType) &&
-                controlMovementByPieceLocations(movement) &&
+                controlMovementByPieceLocations(movement,playerType) &&
                 controlMovementByKingCheckedIfDoneMovement(movement,playerType);
     }
 
@@ -171,10 +170,10 @@ public class Board implements IBoard{
                                 movement.getTargetY()-movement.getSourceY() == 1 && movement.getSourceX() != movement.getTargetX() &&
                                 board[movement.getTargetY()][movement.getTargetX()].getType() != PieceType.Empty;
                     }
-                    else
-                        return  movement.getSourceY()-movement.getTargetY() == 1 && movement.getSourceX() == movement.getTargetX() ||
+                    else{
+                        return  movement.getTargetY()-movement.getSourceY() == 1 && movement.getSourceX() == movement.getTargetX() ||
                                 movement.getTargetY()-movement.getSourceY() == 1 && movement.getSourceX() != movement.getTargetX() &&
-                                board[movement.getTargetY()][movement.getTargetX()].getType() != PieceType.Empty;
+                                board[movement.getTargetY()][movement.getTargetX()].getType() != PieceType.Empty;}
                 }
             case Empty:
                 return false;
@@ -183,8 +182,138 @@ public class Board implements IBoard{
         return false;
     }
 
-    private boolean controlMovementByPieceLocations(Movement movement) {
-        return true;
+    private boolean controlMovementByPieceLocations(Movement movement,PlayerType playerType) {
+        PieceType sourcePieceType = board[movement.getSourceY()][movement.getSourceX()].getType();
+        PieceColor playerPieceColor;
+
+        //Find player type
+        if(playerType == PlayerType.WhitePlayer)
+            playerPieceColor = PieceColor.WhitePiece;
+        else
+            playerPieceColor = PieceColor.BlackPiece;
+
+        //If target piece has same color with player pieces
+        if(board[movement.getTargetY()][movement.getTargetX()].getColor() == playerPieceColor)
+            return false;
+
+        //Convert Queen to Rook or Bishop
+        if(sourcePieceType == PieceType.Queen){
+            //Rook
+            if(movement.getSourceX() == movement.getTargetX() || movement.getSourceY() == movement.getTargetY()){
+                sourcePieceType = PieceType.Rook;
+            }
+            else{
+                sourcePieceType = PieceType.Bishop;
+            }
+        }
+
+        switch (sourcePieceType){
+            //There must not be a piece on rook path.
+            case Rook:
+                //Vertical movement
+                if(movement.getSourceX() == movement.getTargetX()){
+                    //To Up
+                    if(movement.getSourceY() > movement.getTargetY()){
+                        for(int y=movement.getSourceY()-1; y>movement.getTargetY(); y--){
+                            if(board[y][movement.getSourceX()].getColor() != PieceColor.EmptyPiece)
+                                return false;
+                        }
+                    }
+                    //To Down
+                    else{
+                        for(int y=movement.getSourceY()+1; y<movement.getTargetY(); y++){
+                            if(board[y][movement.getSourceX()].getColor() != PieceColor.EmptyPiece)
+                                return false;
+                        }
+                    }
+                    return true;
+                }
+                //Horizontal movement
+                else if(movement.getSourceY() == movement.getTargetY()){
+                    //To Left
+                    if(movement.getSourceX() > movement.getTargetX()){
+                        for(int x=movement.getSourceX()-1; x>movement.getTargetX(); x--){
+                            if(board[movement.getSourceY()][x].getColor() != PieceColor.EmptyPiece)
+                                return false;
+                        }
+                    }
+                    //To Right
+                    else{
+                        for(int x=movement.getSourceX()+1; x<movement.getTargetX(); x++){
+                            if(board[movement.getSourceY()][x].getColor() != PieceColor.EmptyPiece)
+                                return false;
+                        }
+                    }
+                    return true;
+                }
+
+            //Knight can move on other pieces
+            case Knight:
+                return true;
+
+            //There must not be a piece on bishop's diagonals path.
+            case Bishop:
+                //right-down corner
+                if(movement.getSourceX() < movement.getTargetX() && movement.getSourceY() < movement.getTargetY()){
+                    for(int x = movement.getSourceX()+1, y = movement.getSourceY()+1; x < movement.getTargetX() && y < movement.getTargetY(); x++ , y++){
+                        if(board[y][x].getColor() != PieceColor.EmptyPiece)
+                            return false;
+                    }
+                }
+                //right-top corner
+                else if(movement.getSourceX() < movement.getTargetX() && movement.getSourceY() > movement.getTargetY()){
+                    for(int x = movement.getSourceX()+1, y = movement.getSourceY()-1; x < movement.getTargetX() && y > movement.getTargetY(); x++ , y--){
+                        if(board[y][x].getColor() != PieceColor.EmptyPiece)
+                            return false;
+                    }
+                }
+                //left-down
+                else if(movement.getSourceX() > movement.getTargetX() && movement.getSourceY() < movement.getTargetY()){
+                    for(int x = movement.getSourceX()-1, y = movement.getSourceY()+1; x > movement.getTargetX() && y < movement.getTargetY(); x-- , y++){
+                        if(board[y][x].getColor() != PieceColor.EmptyPiece)
+                            return false;
+                    }
+                }
+                //left-top
+                else if(movement.getSourceX() > movement.getTargetX() && movement.getSourceY() > movement.getTargetY()){
+                    for(int x = movement.getSourceX()-1, y = movement.getSourceY()-1; x > movement.getTargetX() && y > movement.getTargetY(); x-- , y--){
+                        if(board[y][x].getColor() != PieceColor.EmptyPiece)
+                            return false;
+                    }
+                }
+                return true;
+
+            //King can move just 1 move so always true
+            case King:
+                return  true;
+
+            //Pawn can't go straight if there is any pawn in front of it.
+            case Pawn:
+                //If pawn goes to diagonal so it can
+                if(movement.getSourceX() == movement.getTargetX()){
+                    if(playerType == PlayerType.WhitePlayer){
+                        if(movement.getSourceY()-movement.getTargetY() == 2 &&
+                                board[movement.getTargetY()+1][movement.getTargetX()].getType() != PieceType.Empty ||
+                                board[movement.getTargetY()][movement.getTargetX()].getType() != PieceType.Empty)
+                            return false;
+                        else if(movement.getSourceY()-movement.getTargetY() == 1 &&
+                                board[movement.getTargetY()][movement.getTargetX()].getType() != PieceType.Empty)
+                            return false;
+                    }
+                    else if(playerType == PlayerType.BlackPlayer){
+                        if(movement.getTargetY()-movement.getSourceY() == 2 &&
+                                board[movement.getTargetY()-1][movement.getTargetX()].getType() != PieceType.Empty ||
+                                board[movement.getTargetY()][movement.getTargetX()].getType() != PieceType.Empty)
+                            return false;
+                        else if(movement.getTargetY()-movement.getSourceY() == 1 &&
+                                board[movement.getTargetY()][movement.getTargetX()].getType() != PieceType.Empty)
+                            return false;
+                    }
+                }
+                return true;
+        }
+
+        return false;
     }
 
     private boolean controlMovementByKingCheckedIfDoneMovement(Movement movement, PlayerType playerType) {
