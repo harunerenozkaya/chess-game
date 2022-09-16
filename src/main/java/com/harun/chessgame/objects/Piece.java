@@ -14,22 +14,40 @@ public class Piece {
 
         switch (type){
             case Rook:
-                icon = "R";
+                if(color == PieceColor.WhitePiece)
+                    icon = "\033[1;97m" + "\u2656";
+                else
+                    icon = "\033[1;30m" + "\u2656";
                 break;
             case Knight:
-                icon = "K";
+                if(color == PieceColor.WhitePiece)
+                    icon = "\033[1;97m" + "\u2658";
+                else
+                    icon = "\033[1;30m" + "\u2658";
                 break;
             case Bishop:
-                icon = "B";
+                if(color == PieceColor.WhitePiece)
+                    icon = "\033[1;97m" + "\u2657";
+                else
+                    icon = "\033[1;30m" + "\u2657";
                 break;
             case Queen:
-                icon = "Q";
+                if(color == PieceColor.WhitePiece)
+                    icon = "\033[1;97m" + "\u2655";
+                else
+                    icon = "\033[1;30m" + "\u2655";
                 break;
             case King:
-                icon = "X";
+                if(color == PieceColor.WhitePiece)
+                    icon = "\033[1;97m" + "\u2654";
+                else
+                    icon = "\033[1;30m" + "\u2654";
                 break;
             case Pawn:
-                icon = "P";
+                if(color == PieceColor.WhitePiece)
+                    icon = "\033[1;97m" +"\u2659";
+                else
+                    icon = "\033[1;30m" + "\u2659";
                 break;
             case Empty:
                 icon = " ";

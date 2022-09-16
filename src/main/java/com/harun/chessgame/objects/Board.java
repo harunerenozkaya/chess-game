@@ -99,16 +99,20 @@ public class Board implements IBoard{
 
     @Override
     public void printBoard() {
-        System.out.println("   ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯");
+        System.out.println("\033[0;103m" + "                              " + "\u001B[0m");
         for(int i=0; i<8; i++){
-            System.out.print(" " + (i+1) + " ");
+            System.out.print("\033[0;103m" +  "\u001B[30m" + " " + (i+1) + " "+ "\u001B[0m");
             for(int j=0; j<8; j++){
-                System.out.print("⎪ " + board[i][j].getIcon() + " ");
+                if(i%2 == 0 && j%2 == 0 || i%2 != 0 && j%2 != 0)
+                    System.out.print("\033[47m" + " "+ board[i][j].getIcon() + " " + "\u001B[0m");
+                else
+                    System.out.print("\033[0;100m"+ " "+ board[i][j].getIcon() + " " + "\u001B[0m");
+
             }
-            System.out.print("⎪\n");
-            System.out.println("   ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯");
+            System.out.println("\033[0;103m" + "   " + "\u001B[0m");
+
         }
-        System.out.println("     a   b   c   d   e   f   g   h");
+        System.out.println("\033[0;103m" + "\u001B[30m" + "    a  b  c  d  e  f  g  h    " + "\u001B[0m");
         System.out.print("\n\n");
     }
 

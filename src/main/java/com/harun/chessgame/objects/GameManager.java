@@ -2,7 +2,6 @@ package com.harun.chessgame.objects;
 
 import com.harun.chessgame.enums.PlayerType;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class GameManager implements IGameManager{

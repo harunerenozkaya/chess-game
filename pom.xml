@@ -15,6 +15,7 @@
     <description>chessGame</description>
     <properties>
         <java.version>18</java.version>
+        <exec.mainClass>com.harun.chessgame.ChessGameApplication</exec.mainClass>
     </properties>
 
     <dependencies>
