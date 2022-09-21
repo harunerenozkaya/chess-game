@@ -85,7 +85,10 @@ public class Board implements IBoard{
 
     @Override
     public boolean isMoveable(Movement movement, PlayerType playerType) {
-        return controlMovement(movement, playerType);
+        return controlMovementByPlayerType(movement,playerType) &&
+                controlMovementByPieceType(movement,playerType) &&
+                controlMovementByPieceLocations(movement,playerType) &&
+                controlMovementByKingCheckedIfDoneMovement(movement,playerType);
     }
 
     @Override
@@ -123,13 +126,6 @@ public class Board implements IBoard{
         }
         System.out.println("\033[0;103m" + "\u001B[30m" + "    a  b  c  d  e  f  g  h    " + "\u001B[0m");
         System.out.print("\n\n");
-    }
-
-    private boolean controlMovement(Movement movement,PlayerType playerType) {
-        return  controlMovementByPlayerType(movement,playerType) &&
-                controlMovementByPieceType(movement,playerType) &&
-                controlMovementByPieceLocations(movement,playerType) &&
-                controlMovementByKingCheckedIfDoneMovement(movement,playerType);
     }
 
     private boolean controlMovementByPlayerType(Movement movement,PlayerType playerType){
@@ -329,7 +325,8 @@ public class Board implements IBoard{
     }
 
     private boolean controlMovementByKingCheckedIfDoneMovement(Movement movement, PlayerType playerType) {
-        Piece targetPiece = board[movement.getTargetY()][movement.getTargetX()];
+        Piece targetPiece = new Piece(board[movement.getTargetY()][movement.getTargetX()].getColor(),board[movement.getTargetY()][movement.getTargetX()].getType());
+
         doMovement(movement);
 
         if(controlPlayerIsChecked(playerType)){
@@ -375,7 +372,7 @@ public class Board implements IBoard{
         for(int i=0; i<8; i++){
             for(int j=0; j<8; j++){
                 if(board[i][j].getColor() == enemyPieceColor){
-                    if(controlMovement(new Movement(j,i,kingX,kingY),enemyPlayerType))
+                    if(isMoveable(new Movement(j,i,kingX,kingY),enemyPlayerType))
                         return true;
                 }
             }
