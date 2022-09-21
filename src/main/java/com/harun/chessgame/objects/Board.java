@@ -84,12 +84,21 @@ public class Board implements IBoard{
     }
 
     @Override
-    public boolean movePiece(Movement movement, PlayerType playerType) {
-        if(!controlMovement(movement,playerType))
-            return false;
+    public boolean isMoveable(Movement movement, PlayerType playerType) {
+        return controlMovement(movement, playerType);
+    }
 
-        doMovement(movement);
-        return true;
+    @Override
+    public void doMovement(Movement movement){
+        Piece sourcePiece = board[movement.getSourceY()][movement.getSourceX()];
+        Piece targetPiece = board[movement.getTargetY()][movement.getTargetX()];
+
+        targetPiece.setType(sourcePiece.getType());
+        targetPiece.setColor(sourcePiece.getColor());
+        targetPiece.setIcon(sourcePiece.getIcon());
+        sourcePiece.setType(PieceType.Empty);
+        sourcePiece.setColor(PieceColor.EmptyPiece);
+        sourcePiece.setIcon(" ");
     }
 
     @Override
@@ -122,7 +131,6 @@ public class Board implements IBoard{
                 controlMovementByPieceLocations(movement,playerType) &&
                 controlMovementByKingCheckedIfDoneMovement(movement,playerType);
     }
-
 
     private boolean controlMovementByPlayerType(Movement movement,PlayerType playerType){
         PieceColor sourcePieceColor = board[movement.getSourceY()][movement.getSourceX()].getColor();
@@ -363,30 +371,17 @@ public class Board implements IBoard{
             }
         }
 
-        //Control each enemy piece can move to king
+        //Control each enemy piece if it can move to king
         for(int i=0; i<8; i++){
             for(int j=0; j<8; j++){
                 if(board[i][j].getColor() == enemyPieceColor){
-                    if(controlMovementByPieceType(new Movement(j,i,kingX,kingY),enemyPlayerType))
+                    if(controlMovement(new Movement(j,i,kingX,kingY),enemyPlayerType))
                         return true;
                 }
             }
         }
 
         return false;
-    }
-
-
-    private void doMovement(Movement movement){
-        Piece sourcePiece = board[movement.getSourceY()][movement.getSourceX()];
-        Piece targetPiece = board[movement.getTargetY()][movement.getTargetX()];
-
-        targetPiece.setType(sourcePiece.getType());
-        targetPiece.setColor(sourcePiece.getColor());
-        targetPiece.setIcon(sourcePiece.getIcon());
-        sourcePiece.setType(PieceType.Empty);
-        sourcePiece.setColor(PieceColor.EmptyPiece);
-        sourcePiece.setIcon(" ");
     }
 
     private void undoMovement(Movement movement ,Piece targetPiece){

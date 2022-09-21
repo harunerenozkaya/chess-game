@@ -14,6 +14,7 @@ public class GameManager implements IGameManager{
     @Override
     public void run(){
         boolean isMoveable = true;
+        Movement currentMovement;
 
         System.out.println("!--- Welcome to the Chess Game ---!");
         System.out.println("Tip : Movement inputs must be like : (source)-(target)");
@@ -22,16 +23,28 @@ public class GameManager implements IGameManager{
         while (true){
             do{
                 board.printBoard();
-                isMoveable = board.movePiece(getInputs(PlayerType.WhitePlayer),PlayerType.WhitePlayer);
-                if(board.controlWinGame(PlayerType.WhitePlayer))
-                    break;
+
+                currentMovement = getInputs(PlayerType.WhitePlayer);
+                isMoveable = board.isMoveable(currentMovement,PlayerType.WhitePlayer);
+
+                if(isMoveable){
+                    board.doMovement(currentMovement);
+                    if(board.controlWinGame(PlayerType.WhitePlayer))
+                        break;
+                }
             }while(!isMoveable);
 
             do{
                 board.printBoard();
-                isMoveable = board.movePiece(getInputs(PlayerType.BlackPlayer),PlayerType.BlackPlayer);
-                if(board.controlWinGame(PlayerType.BlackPlayer))
-                    break;
+
+                currentMovement = getInputs(PlayerType.BlackPlayer);
+                isMoveable = board.isMoveable(currentMovement,PlayerType.BlackPlayer);
+
+                if(isMoveable){
+                    board.doMovement(currentMovement);
+                    if(board.controlWinGame(PlayerType.BlackPlayer))
+                        break;
+                }
             }while(!isMoveable);
         }
     }
