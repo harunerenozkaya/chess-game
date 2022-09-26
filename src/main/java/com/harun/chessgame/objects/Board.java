@@ -3,6 +3,10 @@ package com.harun.chessgame.objects;
 import com.harun.chessgame.enums.PieceColor;
 import com.harun.chessgame.enums.PieceType;
 import com.harun.chessgame.enums.PlayerType;
+import com.harun.chessgame.util.Location;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class Board implements IBoard{
     private Piece[][] board;
@@ -10,6 +14,80 @@ public class Board implements IBoard{
     public Board(){
         board = new Piece[8][8];
 
+        board[0][0] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[0][1] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[0][2] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[0][3] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[0][4] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[0][5] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[0][6] = new Piece(PieceColor.BlackPiece,PieceType.King);
+        board[0][7] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+
+        board[1][0] = new Piece(PieceColor.WhitePiece,PieceType.Rook);
+        board[1][1] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[1][2] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[1][3] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[1][4] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[1][5] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[1][6] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[1][7] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+
+        board[2][0] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[2][1] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[2][2] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[2][3] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[2][4] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[2][5] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[2][6] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[2][7] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+
+        board[3][0] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[3][1] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[3][2] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[3][3] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[3][4] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[3][5] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[3][6] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[3][7] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+
+        board[4][0] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[4][1] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[4][2] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[4][3] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[4][4] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[4][5] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[4][6] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[4][7] = new Piece(PieceColor.BlackPiece,PieceType.Bishop);
+
+        board[5][0] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[5][1] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[5][2] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[5][3] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[5][4] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[5][5] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[5][6] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[5][7] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+
+        board[6][0] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[6][1] = new Piece(PieceColor.WhitePiece,PieceType.Bishop);
+        board[6][2] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[6][3] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[6][4] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[6][5] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[6][6] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[6][7] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+
+        board[7][0] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[7][1] = new Piece(PieceColor.WhitePiece,PieceType.Knight);
+        board[7][2] = new Piece(PieceColor.EmptyPiece,PieceType.Empty);
+        board[7][3] = new Piece(PieceColor.WhitePiece,PieceType.Queen);
+        board[7][4] = new Piece(PieceColor.WhitePiece,PieceType.King);
+        board[7][5] = new Piece(PieceColor.WhitePiece,PieceType.Bishop);
+        board[7][6] = new Piece(PieceColor.WhitePiece,PieceType.Knight);
+        board[7][7] = new Piece(PieceColor.WhitePiece,PieceType.Rook);
+
+
+        /*
         board[0][0] = new Piece(PieceColor.BlackPiece,PieceType.Rook);
         board[0][1] = new Piece(PieceColor.BlackPiece,PieceType.Knight);
         board[0][2] = new Piece(PieceColor.BlackPiece,PieceType.Bishop);
@@ -80,7 +158,7 @@ public class Board implements IBoard{
         board[7][4] = new Piece(PieceColor.WhitePiece,PieceType.King);
         board[7][5] = new Piece(PieceColor.WhitePiece,PieceType.Bishop);
         board[7][6] = new Piece(PieceColor.WhitePiece,PieceType.Knight);
-        board[7][7] = new Piece(PieceColor.WhitePiece,PieceType.Rook);
+        board[7][7] = new Piece(PieceColor.WhitePiece,PieceType.Rook);*/
     }
 
     @Override
@@ -106,7 +184,12 @@ public class Board implements IBoard{
 
     @Override
     public boolean controlWinGame(PlayerType playerType) {
-        return false;
+        PlayerType enemyPlayerType = getEnemyPlayerType(playerType);
+        Location checkerPieceLocation = controlPlayerIsChecked(enemyPlayerType);
+
+        return  checkerPieceLocation != null &&
+                controlKingCantMove(enemyPlayerType) &&
+                controlAnyPieceCantProtectKing(enemyPlayerType,checkerPieceLocation);
     }
 
     @Override
@@ -329,7 +412,7 @@ public class Board implements IBoard{
 
         doMovement(movement);
 
-        if(controlPlayerIsChecked(playerType)){
+        if(controlPlayerIsChecked(playerType) != null){
             undoMovement(movement,targetPiece);
             return false;
         }
@@ -339,52 +422,237 @@ public class Board implements IBoard{
         }
     }
 
-    private boolean controlPlayerIsChecked(PlayerType playerType) {
-        int kingX = 0,kingY = 0;
-        PieceColor playerPieceColor;
-        PieceColor enemyPieceColor;
-        PlayerType enemyPlayerType;
-
-        //Find player piece color
-        if(playerType == PlayerType.BlackPlayer){
-            playerPieceColor = PieceColor.BlackPiece;
-            enemyPieceColor = PieceColor.WhitePiece;
-            enemyPlayerType = PlayerType.WhitePlayer;
-        }
-        else{
-            playerPieceColor = PieceColor.WhitePiece;
-            enemyPieceColor = PieceColor.BlackPiece;
-            enemyPlayerType =  PlayerType.BlackPlayer;
-        }
-
-        //Find king location
-        for(int i=0; i<8; i++){
-            for(int j=0; j<8; j++){
-                if(board[i][j].getColor() == playerPieceColor && board[i][j].getType() == PieceType.King){
-                    kingX = j;
-                    kingY = i;
-                    break;
-                }
-            }
-        }
-
-        //Control each enemy piece if it can move to king
-        for(int i=0; i<8; i++){
-            for(int j=0; j<8; j++){
-                if(board[i][j].getColor() == enemyPieceColor){
-                    if(isMoveable(new Movement(j,i,kingX,kingY),enemyPlayerType))
-                        return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
     private void undoMovement(Movement movement ,Piece targetPiece){
         doMovement(new Movement(movement.getTargetX(),movement.getTargetY(),movement.getSourceX(), movement.getSourceY()));
         board[movement.getTargetY()][movement.getTargetX()].setType(targetPiece.getType());
         board[movement.getTargetY()][movement.getTargetX()].setColor(targetPiece.getColor());
         board[movement.getTargetY()][movement.getTargetX()].setIcon(targetPiece.getIcon());
+    }
+
+    private Location controlPlayerIsChecked(PlayerType playerType) {
+        Location kingLocation;
+        PieceColor enemyPieceColor;
+        PlayerType enemyPlayerType;
+
+        //Find enemy piece type and color
+        enemyPlayerType = getEnemyPlayerType(playerType);
+        enemyPieceColor = getPieceColorByPlayerType(enemyPlayerType);
+
+        //Find king location
+        kingLocation = getKingLocation(playerType);
+
+        //Control each enemy piece if it can move to king
+        for(int i=0; i<8; i++){
+            for(int j=0; j<8; j++){
+                if( board[i][j].getColor() == enemyPieceColor &&
+                    isMoveable(new Movement(j,i, kingLocation.getX(), kingLocation.getY()),enemyPlayerType)){
+                        return new Location(j,i);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private boolean controlKingCantMove(PlayerType playerType) {
+        Location kingLocation = getKingLocation(playerType);
+        int x = kingLocation.getX();
+        int y = kingLocation.getY();
+
+        if (x == 0 && y != 0 && y != 7)
+            return  !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() ,kingLocation.getY() - 1),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() ,kingLocation.getY() + 1),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() + 1 ,kingLocation.getY() + 1 ),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() + 1 ,kingLocation.getY() - 1 ),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() + 1 ,kingLocation.getY()),playerType);
+
+        else if (x == 7 && y != 0 && y != 7)
+            return  !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() ,kingLocation.getY() - 1),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() ,kingLocation.getY() + 1),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() - 1 ,kingLocation.getY() + 1 ),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() - 1 ,kingLocation.getY() - 1 ),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() - 1 ,kingLocation.getY()),playerType);
+
+        else if (y == 0 && x != 0 && x != 7)
+            return  !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() + 1 ,kingLocation.getY()),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() - 1  ,kingLocation.getY()),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() ,kingLocation.getY() + 1 ),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() + 1 ,kingLocation.getY() + 1 ),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() - 1 ,kingLocation.getY() + 1),playerType);
+
+        else if (y == 7 && x != 0 && x != 7)
+            return  !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() + 1 ,kingLocation.getY()),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() - 1 ,kingLocation.getY()),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX()  ,kingLocation.getY() - 1 ),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() + 1 ,kingLocation.getY() - 1 ),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() - 1 ,kingLocation.getY() - 1),playerType);
+
+
+        else if (x == 0 && y == 0)
+            return  !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX()  ,kingLocation.getY() + 1),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() + 1  ,kingLocation.getY() + 1),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() + 1 ,kingLocation.getY()),playerType);
+
+        else if (x == 0 && y == 7)
+            return  !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX()  ,kingLocation.getY() -1),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() + 1  ,kingLocation.getY() - 1),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX()  + 1,kingLocation.getY()),playerType);
+
+
+        else if (x == 7 && y == 0)
+            return  !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() ,kingLocation.getY() + 1),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() - 1 ,kingLocation.getY() + 1),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() - 1 ,kingLocation.getY()),playerType);
+
+        else if (x == 7 && y == 7)
+            return  !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX()  ,kingLocation.getY() -1),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() - 1  ,kingLocation.getY() - 1),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX()  - 1,kingLocation.getY()),playerType);
+
+        else
+            return  !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() ,kingLocation.getY() - 1),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() ,kingLocation.getY() + 1),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() + 1 ,kingLocation.getY()),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() - 1 ,kingLocation.getY()),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() + 1 ,kingLocation.getY() + 1 ),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() - 1 ,kingLocation.getY() - 1 ),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() + 1 ,kingLocation.getY() - 1 ),playerType) &&
+                    !isMoveable(new Movement(kingLocation.getX(), kingLocation.getY(), kingLocation.getX() - 1 ,kingLocation.getY() + 1 ),playerType);
+    }
+
+    private boolean controlAnyPieceCantProtectKing(PlayerType playerType, Location checkerPieceLocation) {
+        List<Location> betweenCells = getBetweenCellsKingAndCheckPiece(playerType,checkerPieceLocation);
+        PieceColor enemyPieceColor = getPieceColorByPlayerType(playerType);
+
+        for(int i=0; i<8; i++){
+            for(int j=0; j<8; j++){
+                if(board[i][j].getColor() == enemyPieceColor){
+                    for(int k=0; k < betweenCells.size(); k++){
+                        if(isMoveable(new Movement(j,i,betweenCells.get(k).getX(),betweenCells.get(k).getY()),playerType)){
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private List<Location> getBetweenCellsKingAndCheckPiece(PlayerType playerType, Location checkerPieceLocation) {
+        LinkedList<Location> list = new LinkedList<>();
+        Location kingLocation = getKingLocation(playerType);
+        PieceType pieceTypeChecker = board[checkerPieceLocation.getY()][checkerPieceLocation.getX()].getType();
+
+        //Add checker location to location list because if any piece can destroy checker piece , checking will be blocked
+        list.add(checkerPieceLocation);
+
+        //Convert Queen to Rook or Bishop
+        if(pieceTypeChecker == PieceType.Queen){
+            //Rook
+            if(checkerPieceLocation.getX() == kingLocation.getX() || checkerPieceLocation.getY() == kingLocation.getY()){
+                pieceTypeChecker = PieceType.Rook;
+            }
+            else{
+                pieceTypeChecker = PieceType.Bishop;
+            }
+        }
+
+        switch (pieceTypeChecker){
+            //Rook can move straight so it is interruptable
+            case Rook:
+                //Vertical movement
+                if(kingLocation.getX() == checkerPieceLocation.getX()){
+                    if(kingLocation.getY() > checkerPieceLocation.getY()){
+                        for(int i= checkerPieceLocation.getY()+1; i < kingLocation.getY(); i++){
+                            list.add(new Location(kingLocation.getX(),i));
+                        }
+                    }
+                    else{
+                        for(int i= kingLocation.getY()+1; i < checkerPieceLocation.getY(); i++){
+                            list.add(new Location(checkerPieceLocation.getX(),i));
+                        }
+                    }
+                }
+                //Horizontal movement
+                else{
+                    if(kingLocation.getX() > checkerPieceLocation.getX()){
+                        for(int i= checkerPieceLocation.getX()+1; i < kingLocation.getX(); i++){
+                            list.add(new Location(i, kingLocation.getY()));
+                        }
+                    }
+                    else{
+                        for(int i= kingLocation.getX()+1; i < checkerPieceLocation.getX(); i++){
+                            list.add(new Location(i,checkerPieceLocation.getY()));
+                        }
+                    }
+                }
+                break;
+            //Knight can jump so there is no cell interrupt movement
+            case Knight:
+                break;
+            case Bishop:
+                //left-top corner
+                if(kingLocation.getX() < checkerPieceLocation.getX() && kingLocation.getY() < checkerPieceLocation.getY()){
+                    for(int x = checkerPieceLocation.getX()-1, y = checkerPieceLocation.getY()-1; x > kingLocation.getX() && y > kingLocation.getY(); x-- , y--){
+                        list.add(new Location(x,y));
+                    }
+                }
+                //left-down corner
+                else if(kingLocation.getX() < checkerPieceLocation.getX() && kingLocation.getY() > checkerPieceLocation.getY()){
+                    for(int x = checkerPieceLocation.getX()-1, y = checkerPieceLocation.getY()+1; x > kingLocation.getX() && y < kingLocation.getY(); x-- , y++){
+                        list.add(new Location(x,y));
+                    }
+                }
+                //right-top
+                else if(kingLocation.getX() > checkerPieceLocation.getX() && kingLocation.getY() < checkerPieceLocation.getY()){
+                    for(int x = checkerPieceLocation.getX()+1, y = checkerPieceLocation.getY()-1; x < kingLocation.getX() && y > kingLocation.getY(); x++ , y--){
+                        list.add(new Location(x,y));
+                    }
+                }
+                //right-down
+                else if(kingLocation.getX() > checkerPieceLocation.getX() && kingLocation.getY() > checkerPieceLocation.getY()){
+                    for(int x = checkerPieceLocation.getX()+1, y = checkerPieceLocation.getY()+1; x < kingLocation.getX() && y < kingLocation.getY(); x++ , y++){
+                        list.add(new Location(x,y));
+                    }
+                }
+                break;
+            //King can not checking
+            case King:
+                break;
+            //Pawn can moves just one step when checking
+            case Pawn:
+                break;
+        }
+
+        return list;
+    }
+
+    private Location getKingLocation(PlayerType playerType){
+        PieceColor playerPieceColor = getPieceColorByPlayerType(playerType);
+
+        for(int i=0; i<8; i++){
+            for(int j=0; j<8; j++){
+                if(board[i][j].getColor() == playerPieceColor && board[i][j].getType() == PieceType.King){
+                    return new Location(j,i);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private PieceColor getPieceColorByPlayerType(PlayerType playerType) {
+        if(playerType == PlayerType.BlackPlayer)
+            return PieceColor.BlackPiece;
+        else
+            return PieceColor.WhitePiece;
+    }
+
+    private PlayerType getEnemyPlayerType(PlayerType playerType) {
+        if(playerType == PlayerType.BlackPlayer)
+            return PlayerType.WhitePlayer;
+        else
+            return PlayerType.BlackPlayer;
     }
 }

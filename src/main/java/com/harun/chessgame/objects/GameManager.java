@@ -13,40 +13,62 @@ public class GameManager implements IGameManager{
 
     @Override
     public void run(){
-        boolean isMoveable = true;
+        boolean isMoveable;
         Movement currentMovement;
+        String winnerPlayer = null;
 
         System.out.println("!--- Welcome to the Chess Game ---!");
         System.out.println("Tip : Movement inputs must be like : (source)-(target)");
         System.out.println("Exp : b4-b6 , c3-d4 etc.\n\n");
 
-        while (true){
+        while (winnerPlayer == null){
+            //White Player Movement
             do{
+                //Print chess board
                 board.printBoard();
 
+                //Get movement
                 currentMovement = getInputs(PlayerType.WhitePlayer);
+                //Control if movement is movable
                 isMoveable = board.isMoveable(currentMovement,PlayerType.WhitePlayer);
 
                 if(isMoveable){
+                    //Do movement
                     board.doMovement(currentMovement);
-                    if(board.controlWinGame(PlayerType.WhitePlayer))
+                    //Control if player win the game
+                    if(board.controlWinGame(PlayerType.WhitePlayer)){
+                        winnerPlayer = "White Player";
                         break;
+                    }
                 }
             }while(!isMoveable);
 
-            do{
-                board.printBoard();
+            if(winnerPlayer == null){
+                //Black Player Movement
+                do{
+                    //Print chess board
+                    board.printBoard();
 
-                currentMovement = getInputs(PlayerType.BlackPlayer);
-                isMoveable = board.isMoveable(currentMovement,PlayerType.BlackPlayer);
+                    //Get movement
+                    currentMovement = getInputs(PlayerType.BlackPlayer);
+                    //Control if movement is movable
+                    isMoveable = board.isMoveable(currentMovement,PlayerType.BlackPlayer);
 
-                if(isMoveable){
-                    board.doMovement(currentMovement);
-                    if(board.controlWinGame(PlayerType.BlackPlayer))
-                        break;
-                }
-            }while(!isMoveable);
+                    if(isMoveable){
+                        //Do movement
+                        board.doMovement(currentMovement);
+                        //Control if player win the game
+                        if(board.controlWinGame(PlayerType.BlackPlayer)){
+                            winnerPlayer = "Black Player";
+                            break;
+                        }
+                    }
+                } while(!isMoveable);
+            }
         }
+
+        System.out.println(winnerPlayer + " Won !");
+        board.printBoard();
     }
 
     private Movement getInputs(PlayerType playerType) {
